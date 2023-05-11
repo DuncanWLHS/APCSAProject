@@ -1,0 +1,15 @@
+Import Phaser.js
+
+Phaser:
+    Character Controller
+    Physics
+    Canvas
+
+Level Mapping:
+    2D array of characters to map out level design
+
+
+Assets Design and properties
+    Asset resolution: 16x16
+    ground.png
+
