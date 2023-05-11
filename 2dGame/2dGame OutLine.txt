@@ -11,5 +11,6 @@ Level Mapping:
 
 Assets Design and properties
     Asset resolution: 16x16
-    ground.png
+    ground.png (Complete)
+    dirt.png (Complete)
 
