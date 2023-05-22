@@ -6,7 +6,7 @@ var config = {
     default: 'arcade',
     arcade: {
       gravity: { y: 500 },
-      debug: false
+      debug: true
     }
   },
   scene: {
@@ -16,13 +16,21 @@ var config = {
   }
 };
 
+const GROUND = 'G';
+const DIRT = 'D';
+const PLAYER = 'P';
+
 var game = new Phaser.Game(config);
+let level_1;
+let player;
 
 function preload() {
   this.load.image('sky', 'assets/sky.png');
   this.load.image('ground', 'assets/ground.png');
+  this.load.image('dirt', 'assets/dirt.png');
   this.load.image('star', 'assets/star.png');
   this.load.image('player', 'assets/player.png');
+  this.load.text('level_1', 'levels/level_1.txt');
 }
 
 function create() {
@@ -30,18 +38,8 @@ function create() {
 
   platforms = this.physics.add.staticGroup();
 
-  platforms.create(400, 568, 'ground').setScale(1).refreshBody();
-  for (let i = 0; i < 10; i++) {
-    platforms.create(0 + (i * 50), 325, 'ground');
-  }
-//  platforms.create(100, 325, 'ground');
-//  platforms.create(150, 325, 'ground');
-//  platforms.create(200, 325, 'ground');
-  player = this.physics.add.sprite(100, 250, 'player');
-
-  player.setScale(2);
-  player.setBounce(0.2);
-//  player.setCollideWorldBounds(true);
+  level_1 = this.cache.text.get('level_1');
+  buildGrid(this);
 
   this.anims.create({
     key: 'left',
@@ -88,17 +86,26 @@ function create() {
 }
 
 function update() {
-  if (cursors.left.isDown) {
-    player.setVelocityX(-160);
+  if (cursors.left.isDown && cursors.shift.isDown) {
+    player.setVelocityX(-300);
+    player.setScale(-1, 1);
 //    player.anims.play('left', true);
+  } else if (cursors.left.isDown) {
+    player.setVelocityX(-160);
+    player.setScale(-1, 1);
+//    player.anims.play('left', true);
+  } else if (cursors.right.isDown && cursors.shift.isDown) {
+    player.setVelocityX(300);
+    player.setScale(1, 1);
+//    player.anims.play('right', true);
   } else if (cursors.right.isDown) {
     player.setVelocityX(160);
+    player.setScale(1, 1);
 //    player.anims.play('right', true);
   } else {
     player.setVelocityX(0);
 //    player.anims.play('turn');
   }
-
   if (cursors.up.isDown && player.body.touching.down) {
     player.setVelocityY(-330);
   }
@@ -108,4 +115,40 @@ function update() {
 
 function collectStar(player, star) {
   star.disableBody(true, true);
+}
+
+function addPlayer(that, row, col) {
+    player = that.physics.add.sprite((col * 48), (row * 48), 'player');
+    player.setScale(1, 1);
+    player.setOrigin(0.5, 0.5);
+    player.setDisplayOrigin(0.5, 0.5);
+    player.setBounce(0.2);
+}
+
+function addTile(row, col, type) {
+    if (type == GROUND) {
+        platforms.create((col * 48), (row * 48), 'ground');
+    } else if (type == DIRT) {
+        platforms.create((col * 48), (row * 48), 'dirt');
+    }
+}
+
+function buildGrid(that) {
+    // D = dirt, G = ground, P = player
+    let grid = []
+    let lines = level_1.split('\n');
+    let rowCount = lines.length;
+    let colCount = lines[0].trim().length;
+
+    for (let row = 0; row < rowCount; row++) {
+        for (let col = 0; col < colCount; col++) {
+            if (lines[row][col] === GROUND) {
+                addTile(row, col, GROUND);
+            } else if (lines[row][col] === DIRT) {
+                addTile(row, col, DIRT);
+            } else if (lines[row][col] === PLAYER) {
+                addPlayer(that, row, col);
+            }
+        }
+    }
 }
