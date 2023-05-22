@@ -31,16 +31,17 @@ function create() {
   platforms = this.physics.add.staticGroup();
 
   platforms.create(400, 568, 'ground').setScale(1).refreshBody();
-
-  platforms.create(50, 150, 'ground');
-  platforms.create(50, 500, 'ground');
-  platforms.create(750, 220, 'ground');
-
-  player = this.physics.add.sprite(100, 450, 'player');
+  for (let i = 0; i < 10; i++) {
+    platforms.create(0 + (i * 50), 325, 'ground');
+  }
+//  platforms.create(100, 325, 'ground');
+//  platforms.create(150, 325, 'ground');
+//  platforms.create(200, 325, 'ground');
+  player = this.physics.add.sprite(100, 250, 'player');
 
   player.setScale(2);
   player.setBounce(0.2);
-  player.setCollideWorldBounds(true);
+//  player.setCollideWorldBounds(true);
 
   this.anims.create({
     key: 'left',
@@ -65,6 +66,12 @@ function create() {
   this.physics.add.collider(player, platforms);
 
   cursors = this.input.keyboard.createCursorKeys();
+  this.input.keyboard.on('keydown-SPACE', function () {
+    console.log('jumping...');
+    if (player.body.touching.down) {
+        player.setVelocityY(-400);
+    }
+  });
 
   stars = this.physics.add.group({
     key: 'star',
@@ -83,18 +90,20 @@ function create() {
 function update() {
   if (cursors.left.isDown) {
     player.setVelocityX(-160);
-    player.anims.play('left', true);
+//    player.anims.play('left', true);
   } else if (cursors.right.isDown) {
     player.setVelocityX(160);
-    player.anims.play('right', true);
+//    player.anims.play('right', true);
   } else {
     player.setVelocityX(0);
-    player.anims.play('turn');
+//    player.anims.play('turn');
   }
 
   if (cursors.up.isDown && player.body.touching.down) {
     player.setVelocityY(-330);
   }
+
+  this.cameras.main.startFollow(player);
 }
 
 function collectStar(player, star) {
