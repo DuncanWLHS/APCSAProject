@@ -16,11 +16,11 @@ var config = {
   }
 };
 
+var game = new Phaser.Game(config);
+
 const GROUND = 'G';
 const DIRT = 'D';
 const PLAYER = 'P';
-
-var game = new Phaser.Game(config);
 let level_1;
 let player;
 
@@ -109,13 +109,10 @@ function update() {
   if (cursors.up.isDown && player.body.touching.down) {
     player.setVelocityY(-330);
   }
-
   this.cameras.main.startFollow(player);
 }
 
-function collectStar(player, star) {
-  star.disableBody(true, true);
-}
+function collectStar(player, star) { star.disableBody(true, true); }
 
 function addPlayer(that, row, col) {
     player = that.physics.add.sprite((col * 48), (row * 48), 'player');
