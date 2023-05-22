@@ -88,19 +88,19 @@ function create() {
 function update() {
   if (cursors.left.isDown && cursors.shift.isDown) {
     player.setVelocityX(-300);
-    player.setScale(-1, 1);
+    //player.setScale(-2, 2);
 //    player.anims.play('left', true);
   } else if (cursors.left.isDown) {
     player.setVelocityX(-160);
-    player.setScale(-1, 1);
+    //player.setScale(-2, 2);
 //    player.anims.play('left', true);
   } else if (cursors.right.isDown && cursors.shift.isDown) {
     player.setVelocityX(300);
-    player.setScale(1, 1);
+    //player.setScale(2, 2);
 //    player.anims.play('right', true);
   } else if (cursors.right.isDown) {
     player.setVelocityX(160);
-    player.setScale(1, 1);
+    //player.setScale(2, 2);
 //    player.anims.play('right', true);
   } else {
     player.setVelocityX(0);
@@ -116,9 +116,9 @@ function collectStar(player, star) { star.disableBody(true, true); }
 
 function addPlayer(that, row, col) {
     player = that.physics.add.sprite((col * 48), (row * 48), 'player');
-    player.setScale(1, 1);
-    player.setOrigin(0.5, 0.5);
-    player.setDisplayOrigin(0.5, 0.5);
+    player.setScale(2);
+    //player.setOrigin(0.5, 0.5);
+    //player.setDisplayOrigin(0.5, 0.5);
     player.setBounce(0.2);
 }
 
