@@ -6,7 +6,7 @@ var config = {
     default: 'arcade',
     arcade: {
       gravity: { y: 500 },
-      debug: true
+      debug: false
     }
   },
   scene: {
@@ -21,6 +21,7 @@ var game = new Phaser.Game(config);
 const GROUND = 'G';
 const DIRT = 'D';
 const PLAYER = 'P';
+const METAL = 'M';
 let level_1;
 let player;
 
@@ -31,6 +32,7 @@ function preload() {
   this.load.image('star', 'assets/star.png');
   this.load.image('player', 'assets/player.png');
   this.load.text('level_1', 'levels/level_1.txt');
+  this.load.image('metal', 'assets/2DgameMetal.png');
 }
 
 function create() {
@@ -127,6 +129,8 @@ function addTile(row, col, type) {
         platforms.create((col * 48), (row * 48), 'ground');
     } else if (type == DIRT) {
         platforms.create((col * 48), (row * 48), 'dirt');
+    } else if (type == METAL) {
+        platforms.create((col * 48), (row * 48), 'metal');
     }
 }
 
@@ -145,6 +149,8 @@ function buildGrid(that) {
                 addTile(row, col, DIRT);
             } else if (lines[row][col] === PLAYER) {
                 addPlayer(that, row, col);
+            } else if (lines[row][col] === METAL) {
+                addTile(row, col, METAL);
             }
         }
     }
