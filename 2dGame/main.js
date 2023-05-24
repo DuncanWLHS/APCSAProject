@@ -135,7 +135,7 @@ function addTile(row, col, type) {
 }
 
 function buildGrid(that) {
-    // D = dirt, G = ground, P = player
+    // D = dirt, G = ground, P = player, M = metal
     let grid = []
     let lines = level_1.split('\n');
     let rowCount = lines.length;
