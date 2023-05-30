@@ -30,7 +30,7 @@ function preload() {
   this.load.image('ground', 'assets/ground.png');
   this.load.image('dirt', 'assets/dirt.png');
   this.load.image('star', 'assets/star.png');
-  this.load.image('player', 'assets/player.png');
+  this.load.image('player', 'assets/player_resized.png');
   this.load.text('level_1', 'levels/level_1.txt');
   this.load.image('metal', 'assets/2DgameMetal.png');
 }
